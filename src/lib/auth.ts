@@ -5,7 +5,7 @@ import { env } from "../config/env";
 
 // Better Auth manages its own connection (separate from mongoose — same DB)
 const client = new MongoClient(env.MONGODB_URI);
-const db = client.db(); // picks up "tripplanner" from the URI
+const db = client.db(process.env.AUTH_DB_NAME); // picks up "tripplanner" from the URI
 
 const isProd = env.NODE_ENV === "production";
 
@@ -26,6 +26,15 @@ export const auth = betterAuth({
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
+  user: {
+  additionalFields: {
+    userRole: {
+      type: "string",
+      defaultValue: "traveler",
+      input: true,
+    },
+  },
+},
 
   // Cross-origin cookies (Vercel <-> Render) only in production.
   // On localhost, secure cookies would break login.

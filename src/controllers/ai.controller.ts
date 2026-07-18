@@ -12,9 +12,10 @@ export async function generate(req: Request, res: Response, next: NextFunction) 
 
 export async function chat(req: Request, res: Response, next: NextFunction) {
   try {
-    const reply = await aiService.chat(req.body);
-    res.json({ data: { reply } });
+    await aiService.chatStream(req.body, res);
   } catch (err) {
+    // if streaming already started we can't send JSON — just end
+    if (res.headersSent) return res.end();
     next(err);
   }
 }

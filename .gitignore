@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment — NEVER commit these (yours contain live secrets)
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

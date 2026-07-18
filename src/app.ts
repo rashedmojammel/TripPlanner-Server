@@ -1,0 +1,38 @@
+import express from "express";
+import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth";
+import { env } from "./config/env";
+import { notFound, errorHandler } from "./middleware/errorHandler";
+import tripRoutes from "./routes/trip.routes";
+import aiRoutes from "./routes/ai.routes";
+
+const app = express();
+
+app.use(
+  cors({
+    origin: env.CLIENT_URL,
+    credentials: true, // REQUIRED for session cookies
+  })
+);
+
+// ⚠️ Better Auth MUST be mounted BEFORE express.json()
+// If you're on Express 5 (check: npm ls express), use "/api/auth/{*any}" instead of "/api/auth/*"
+app.all("/api/auth/{*any}", toNodeHandler(auth));
+
+app.use(express.json({ limit: "1mb" }));
+
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true, timestamp: new Date().toISOString() });
+});
+
+// Phase 2 & 3 route mounts will go here:
+// app.use("/api/trips", tripRoutes);
+// app.use("/api/ai", aiRoutes);
+app.use("/api/trips", tripRoutes);
+app.use("/api/ai", aiRoutes);
+app.use(notFound);
+app.use(errorHandler);
+
+
+export default app;

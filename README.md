@@ -6,7 +6,8 @@ Express + TypeScript REST API powering TripPlanner: trip catalog with filtering/
 **🌐 Frontend:** https://trip-planner-client-navy.vercel.app
 **📦 Frontend Repository:** https://github.com/rashedmojammel/TripPlanner-Client
 
-> ⏳ Runs on Render's free tier — the first request after idle takes 30–60 seconds (cold start).
+> ⏳ Runs on Render's free tier — the first request after idle takes 30–60 seconds (cold start) !
+> 
 
 ---
 
